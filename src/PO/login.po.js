@@ -27,6 +27,13 @@ class Login {
         await this.submitButton.click();
         await $('#user-label').waitForDisplayed({timeoutMsg: 'cannot login into system'});
     }
+
+    async loginUnsuccessful(credentials) {
+        await this.username.setValue(credentials.username);
+        await this.password.setValue(credentials.password);
+        await this.submitButton.click();
+        await $('#error').waitForDisplayed();
+    }
 }
 
 module.exports = { Login: new Login() }

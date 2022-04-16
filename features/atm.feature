@@ -20,3 +20,5 @@ Feature: ATM withdraw
     And the ATM contains "150"
     When I withdraw "300"
     Then I get "The machine is not have enough money!" message
+
+    # npx wdio -f cucumber --spec features/atm.feature

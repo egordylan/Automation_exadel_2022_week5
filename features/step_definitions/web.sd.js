@@ -6,6 +6,7 @@ const { CustomPage } = require("../../src/PO/custom_page.po");
 const { CustomPage2 } = require("../../src/PO/custom_page_2.po");
 const { Table } = require("../../src/PO/tables/table.po");
 const Subscribe = require('../../src/PO/forms/subscribe.model');
+const selector = '#error';
 
 When(/^I go to "([^"]*)"$/, async function (url) {
     await browser.url(url);
@@ -28,14 +29,39 @@ When(/^I expect element: "([^"]*)" (text|value): "([^"]*)"$/, async function (se
         .toEqual(text)
 });
 
-When('I go to {string} menu item', function (item) {
-    // add implementation here
+When('I go to {string} menu item', async function (item) {
+    await $(`a=${item}`).click();
+    const url = await browser.getUrl();
+    await expect(url).toMatch('https://viktor-silakov.github.io/course-sut/formUser.html');
 });
-
 
 When('I login as: {string}, {string}', async function (login, password) {
     await Login.login({ username: login, password: password });
 });
+
+// Variant 1
+When('I input credentials:',  async function(table) {
+    const rows = table.hashes();
+    for (const row of rows) {
+        await Login.loginUnsuccessful({ username: row.login, password: row.password });
+    }
+});
+
+Then('{string} message appears', async function(message) {
+    console.log(message);
+    expect(await $('#error').getText()).toEqual(message);
+});
+
+// Variant 2
+When('I login with invalid credentials', async function (table) {
+    const rows = table.hashes();
+    for (const row of rows) {
+        await Login.login({ username: row.login, password: row.password });
+        expect(await $(selector).getText()).toEqual(row.message);
+     }
+});
+
+//
 
 async function invokeMethodOnPo(action, pretext, po, element, parameters) {
     if ('string' === (typeof parameters)) {

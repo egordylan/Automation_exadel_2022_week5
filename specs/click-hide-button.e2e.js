@@ -12,3 +12,5 @@ describe('Check app', function () {
 });
 
 
+// npx wdio wdio.conf.js --spec specs/sort_table.js
+// npx wdio wdio.conf_for_local_tests.js --spec specs/sort_table.js

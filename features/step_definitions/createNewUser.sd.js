@@ -26,12 +26,10 @@ When(/^I fill the form:$/, async function (formYaml) {
     const formData = YAML.parse(formYaml);
     console.log({ formData });
     for (const field in formData) {
-        //console.log(field, ': ', formData[field]);
         const selector = field.toLowerCase()
         await $(`#${selector}`).setValue(formData[field]);
     }
     await $('//*[@type="submit"][text()[contains(.,"Create")]]').click();
-    await browser.pause(200);
     
 });
 

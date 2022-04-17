@@ -16,4 +16,4 @@ Feature: Unsuccessful login
         |                   |               | Login is empty        | 
         | old_walker@jw.com | password1     | The user is suspended |
 
-# npx wdio -f cucumber --spec features/unsuccessfulLogin3.feature
+# npx wdio -f cucumber --spec features/unsuccessfulLogin-homework.feature

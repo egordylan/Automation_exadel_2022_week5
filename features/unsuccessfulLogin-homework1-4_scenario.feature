@@ -35,4 +35,4 @@ Feature: Unsuccessful login
       | old_walker@jw.com | password1 |
     Then "The user is suspended" message appears
 
-# npx wdio -f cucumber --spec features/unsuccessfulLogin.feature
+# npx wdio -f cucumber --spec features/unsuccessfulLogin-homework1-4_scenario.feature

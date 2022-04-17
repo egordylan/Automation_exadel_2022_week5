@@ -14,4 +14,4 @@ Feature: ATM withdraw
         | Account has insufficient funds            | 500             | 600          | 550       | You don't have enough money!          |
         | The ATM has insufficient amount of money  | 500             | 150          | 300       | The machine is not have enough money! |
 
-    # npx wdio -f cucumber --spec features/task.feature
+    # npx wdio -f cucumber --spec features/atm-homework.feature

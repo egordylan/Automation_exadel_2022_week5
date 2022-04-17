@@ -6,7 +6,7 @@ Feature: User Creation
 
   Scenario: Create user
     When I go to "Create User" menu item
-    When I fill form:
+    And I fill form:
       """
       email: 'test@test.com'
       password: 'U&cmpYsxK9'

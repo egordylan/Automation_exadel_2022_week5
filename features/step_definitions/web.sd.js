@@ -56,7 +56,7 @@ Then('{string} message appears', async function(message) {
 When('I login with invalid credentials', async function (table) {
     const rows = table.hashes();
     for (const row of rows) {
-        await Login.login({ username: row.login, password: row.password });
+        await Login.loginUnsuccessful({ username: row.login, password: row.password });
         expect(await $(selector).getText()).toEqual(row.message);
      }
 });
@@ -107,3 +107,29 @@ When(/^I fill form:$/, async function (formYaml) {
         await browser.pause(200);
     }
 });
+
+// The game
+Then(/^Play game untill score is more than "([^"]*)"$/, async function(score) {
+    await browser.maximizeWindow();
+    const widthPad = await $('#pad').getSize('width');
+    const halfOfWidth = Math.floor(widthPad/2 - 15);
+    console.log(halfOfWidth);
+
+    await $('button=PLAY').click();
+    await browser.waitUntil(async () => {
+
+        const ball = await $('#ball').getLocation('x');
+        const pad = await $('#pad').getLocation('x');
+        if(ball > pad + halfOfWidth) {
+            await browser.keys('D');
+        } 
+        else if (ball <= pad - halfOfWidth) {
+            await browser.keys('A');
+        }
+            
+        const points = parseInt(await $('#points').getText(), 10);
+        if (points > Number(score)) {return true;}
+        console.log({ points });
+    }, { timeout: 600000, interval: 10 })
+});
+

@@ -7,7 +7,7 @@ Feature: User Creation
 
   Scenario: Create user
     When I go to the "Create User" menu item
-    When I fill the form:
+    And I fill the form:
       """
       email: 'test@test.com'
       password: 'U&cmpYsxK9'
@@ -19,4 +19,4 @@ Feature: User Creation
       """
     Then Check the user: "test@test.com"
 
-# npx wdio -f cucumber --spec features/createUserCucumber.feature
+# npx wdio -f cucumber --spec features/createUser-homework.feature

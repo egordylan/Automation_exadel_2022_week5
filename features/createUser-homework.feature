@@ -18,5 +18,7 @@ Feature: User Creation
       Description: 'test user'
       """
     Then Check the user: "test@test.com"
+    And Check the address1, address2, city and zip: "Ravala pst 7-21", "flor 3", "Tallinn", "332567"
+    And Check the "test user"
 
 # npx wdio -f cucumber --spec features/createUser-homework.feature

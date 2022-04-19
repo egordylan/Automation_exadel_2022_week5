@@ -81,3 +81,50 @@ Then('Check the {string}', async function(item) {
     await expect(item).toEqual(descriptionText)
     console.log(descriptionText);
 });
+
+// With Cucumber World
+When(/^I fill the user form:$/, async function (formYaml) {
+    this.state.formYaml = YAML.parse(formYaml);
+    // console.log(this.state);
+    for (const field in this.state.formYaml ) {
+        await $(`#${field}`).setValue(this.state.formYaml[field]);
+    }
+    await $('//*[@type="submit"][text()[contains(.,"Create")]]').click();
+    
+});
+
+Then('Check the user data', async function() {
+    await $('//*[text()[contains(.,"List of Users")]]').waitForExist({reverse: false, timeout: 5000});
+    const url = await browser.getUrl();
+    await expect(url).toMatch('https://viktor-silakov.github.io/course-sut/Users.html');
+
+    const email = await $(`//*[text()="${this.state.formYaml.email}"]/..`);
+    const emailText = await email.$('(.//div[@class="tabulator-cell"])[1]').getText();
+    await expect(this.state.formYaml.email).toEqual(emailText)
+    console.log(emailText);
+
+    const address1 = await $(`//*[text()="${this.state.formYaml.address1}"]/..`);
+    const address1Text = await address1.$('(.//div[@class="tabulator-cell"])[3]').getText();
+    await expect(this.state.formYaml.address1).toEqual(address1Text)
+    console.log(address1Text);
+
+    const address2 = await $(`//*[text()="${this.state.formYaml.address2}"]/..`);
+    const address2Text = await address2.$('(.//div[@class="tabulator-cell"])[4]').getText();
+    await expect(this.state.formYaml.address2).toEqual(address2Text)
+    console.log(address2Text);
+
+    const cityData = await $(`//*[text()="${this.state.formYaml.city}"]/..`);
+    const cityText = await cityData.$('(.//div[@class="tabulator-cell"])[5]').getText();
+    await expect(this.state.formYaml.city).toEqual(cityText)
+    console.log(cityText);
+
+    const zipData = await $(`//*[text()="${this.state.formYaml.zip}"]/..`);
+    const zipText = await zipData.$('(.//div[@class="tabulator-cell"])[7]').getText();
+    await expect(String(this.state.formYaml.zip)).toEqual(zipText)
+    console.log(zipText);
+
+    const description = await $(`//*[text()="${this.state.formYaml.description}"]/..`);
+    const descriptionText = await description.$('(.//div[@class="tabulator-cell"])[8]').getText();
+    await expect(this.state.formYaml.description).toEqual(descriptionText)
+    console.log(descriptionText);
+});
